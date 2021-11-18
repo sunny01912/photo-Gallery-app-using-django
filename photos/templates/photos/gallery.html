@@ -1,0 +1,87 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'photos/CSS/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Gallery</title>
+</head>
+
+<body class="mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h5>Welcome, {{request.user}}</h5> <br>
+
+                <div class="card">
+                    <div class="card-header" style="font-weight: bold;">
+                        Categories
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="{% url 'gallery' %}"
+                                style="text-decoration: none;color: black;">All</a></li>
+                        {% for category in categories %}
+                        <li class="list-group-item cat-list"><a href="{% url 'gallery' %}?category={{category.name}}"
+                                style="text-decoration: none;color: black;">{{category.name}}</a></li>
+
+                        {% endfor %}
+
+                        <a href="{% url 'add' %}" class="btn btn-dark btn-block m-1">Add Photo</a>
+                        <a href="{% url 'logout' %}" class="btn btn-dark btn-block m-1">Log Out</a>
+
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-md-8 offset-md-1">
+                <button class="btn btn-dark btn-sm button" style="margin-left: 85%;">Change Theme</button>
+
+                <div class="row">
+
+                    {% for photo in photos %}
+                    <div class="col-md-4">
+                        <div class="card my-2">
+                            <img src="{{photo.img.url}}" class="card-img-top img-thumbnail img-fluid image"
+                                alt="nature image">
+                            <div class="card-body">
+                                <small>Category:{{photo.category}}</small>
+
+                            </div>
+                            <a href="{% url 'photo' photo.id %}" class="btn btn-outline-dark m-1 view">View</a>
+                            <a href="{% url 'delete' photo.id %}" class="btn btn-outline-dark m-1 view">Delete</a>
+
+                        </div>
+                    </div>
+                    <br><br>
+                    {% empty %}
+                    <h3>No Photos...</h3>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+
+
+<script>
+    $(".button").click(function(){
+        $("body").toggleClass("myclass");
+    })
+</script>
+</body>
+
+</html>
